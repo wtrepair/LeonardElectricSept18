@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interior & Exterior Lighting - Leonard Electric</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Interior and Exterior Lighting Services</h1>
+        <p>Brighten Your Home, Illuminate Your Outdoors</p>
+    </header>
+
+    <main>
+        <!-- Smart Lighting Section -->
+        <section class="section">
+            <h2>Smart Interior Lighting Solutions</h2>
+            <img src="assets/living-room-lighting.jpg" alt="Living Room with Smart Lighting">
+            <p>Transform your home with smart lighting solutions:</p>
+            <ul>
+                <li>Lights turn on/off automatically while you’re on vacation.</li>
+                <li>Set schedules to match your routine.</li>
+                <li>Sync lighting with music for immersive experiences.</li>
+                <li>Adjust lighting to follow natural circadian rhythms for better wellness.</li>
+                <li>Control lighting in every room with an app or voice command.</li>
+            </ul>
+            <img src="assets/Smartphone_Light.jpg" alt="Person controlling lights with smartphone">
+        </section>
+
+        <!-- Interior Lighting Installations -->
+        <section class="section">
+            <h2>Professional Interior Lighting Installations</h2>
+            <p>We specialize in five types of interior lighting installations:</p>
+            <div class="image-grid">
+                <figure>
+                    <img src="assets/kitchen_lighting.jpg" alt="Kitchen with track lighting">
+                    <figcaption>Track Lighting</figcaption>
+                </figure>
+                <figure>
+                    <img src="assets/Living_Room_Lighting.jpg" alt="Living Room with recessed lights">
+                    <figcaption>Recessed Ceiling Lights</figcaption>
+                </figure>
+                <figure>
+                    <img src="assets/cozy_lighting" alt="Reading nook with downlights">
+                    <figcaption>Downlights</figcaption>
+                </figure>
+                <figure>
+                    <img src="assets/bedroom_lighting.jpg" alt="Bedroom with swag lighting">
+                    <figcaption>Swag Lighting</figcaption>
+                </figure>
+                <figure>
+                    <img src="assets/Chandelier_light" alt="Dining room with chandelier">
+                    <figcaption>Chandeliers ($269 Install)</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <!-- Exterior Lighting -->
+        <section class="section">
+            <h2>Exterior Lighting Services</h2>
+            <img src="assets/Exterior_Lighting.jpg" alt="House exterior with lighting">
+            <p>Enhance safety and beauty with professional exterior lighting:</p>
+            <ul>
+                <li>Automated schedules to match seasons and time changes.</li>
+                <li>Motion-activated floodlights for security (great for rural properties).</li>
+                <li>Pathway and driveway lighting for safe navigation.</li>
+                <li>Deck and patio lighting for evening gatherings.</li>
+                <li>Holiday lighting with smart automation.</li>
+            </ul>
+        </section>
+
+        <!-- Holiday Lighting -->
+        <section class="section">
+            <h2>Holiday & Seasonal Lighting Installation</h2>
+            <img src="assets/Xmas_lighting.jpg" alt="Festive home with Christmas lights">
+            <p>Make your holidays magical and stress-free with professionally installed holiday lighting:</p>
+            <ul>
+                <li>Custom designs for a festive look.</li>
+                <li>Smart automation to turn lights on/off with a button.</li>
+                <li>Energy-efficient LEDs to save on energy costs.</li>
+            </ul>
+        </section>
+
+        <!-- Motion Sensor Lighting -->
+        <section class="section">
+            <h2>Motion Sensor Lighting</h2>
+            <img src="assets/motion_activated_lighting.jpg" alt="Bathroom with motion sensor lighting">
+            <p>Never stumble in the dark again. Our motion sensor lighting provides:</p>
+            <ul>
+                <li>Ambient, low-color LED lighting for nighttime convenience.</li>
+                <li>Lights that activate automatically as you enter the room.</li>
+                <li>A modern, sleek solution for hallways, bathrooms, and kitchens.</li>
+            </ul>
+        </section>
+
+        <!-- Why Choose Leonard Electric -->
+        <section class="section why-leonard">
+            <h2>Why Choose Leonard Electric?</h2>
+            <p>Here’s why we’re the trusted choice for all your lighting needs:</p>
+            <ul>
+                <li><strong>Licensed Professionals:</strong> Over 15 years of trusted service.</li>
+                <li><strong>Customer-Focused:</strong> We tailor our services to your unique needs.</li>
+                <li><strong>Affordable Prices:</strong> Competitive rates for every budget.</li>
+                <li><strong>Guaranteed Satisfaction:</strong> Quality workmanship you can rely on.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Contact us today to schedule your lighting installation!</p>
+        <button>Call Now</button>
+        <button>Request a Quote</button>
+    </footer>
+</body>
+</html>
