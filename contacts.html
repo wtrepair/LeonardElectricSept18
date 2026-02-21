@@ -254,7 +254,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </svg></div>
                     <div>
                         <h6 class="fw-bold mb-0" style="font-size: 0.8rem;">Phone</h6>
-                        <p class="text-muted mb-0" style="font-size: 0.75rem;">(613)328-3185</p>
+                        <p class="text-muted mb-0" style="font-size: 0.75rem;">
+                            <a href="tel:+16133283185" onclick="return gtag_report_conversion('tel:+16133283185');">(613)328-3185</a>
+                        </p>
                     </div>
                 </div>
                 <div class="d-flex align-items-center mb-2">
@@ -297,6 +299,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script src="assets/js/Animated-Pretty-Product-List-v12-Animated-Pretty-Product-List.js"></script>
     <script src="assets/js/bold-and-dark.js"></script>
     <script src="assets/js/Video-Parallax-Background-v3-Parallax-Video-Background.js"></script>
+
+    <!-- Event snippet for click-to-call conversion -->
+    <script>
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) !== 'undefined') {
+          window.location = url;
+        }
+      };
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+      gtag('event', 'conversion', {
+        'send_to': 'AW-11310801752/FX9yCMr93PwbENjGtJEq',
+        'event_callback': callback
+      });
+      return false;
+    }
+    </script>
     
     <!-- Form submission script -->
     <script>
