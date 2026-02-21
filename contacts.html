@@ -309,6 +309,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         return;
       }
 
+      const GOOGLE_ADS_CONVERSION_ID = 'AW-11310801752';
+      const GOOGLE_ADS_CONVERSION_LABEL = '';
+
       form.addEventListener('submit', async function(event) {
         event.preventDefault();
 
@@ -339,9 +342,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             status.classList.remove('alert-info', 'alert-danger');
             status.classList.add('alert-success');
             status.textContent = data.message || 'Thanks! Your request has been sent.';
+            const sendTo = GOOGLE_ADS_CONVERSION_LABEL
+              ? `${GOOGLE_ADS_CONVERSION_ID}/${GOOGLE_ADS_CONVERSION_LABEL}`
+              : GOOGLE_ADS_CONVERSION_ID;
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
-              event: 'lead_form_success',
+              event: 'conversion',
+              send_to: sendTo,
               form_id: 'leonard-contact-form'
             });
             form.reset();
