@@ -12,7 +12,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>New Request - Leonard Electric</title>
-    <meta name="" content="">
     <meta name="description" content="Submit a new service request to Leonard Electric - Your Limestone City Electricians for over 15 Years.">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/ABeeZee.css">
@@ -95,10 +94,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 <div class="col-md-6">
                                     <label for="lastName" class="form-label">Last name</label>
                                     <input type="text" class="form-control" id="lastName" name="lastName" required>
-                                </div>
-                                <div class="col-12">
-                                    <label for="companyName" class="form-label">Company name (optional)</label>
-                                    <input type="text" class="form-control" id="companyName" name="companyName">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="email" class="form-label">Email</label>
@@ -344,6 +339,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             status.classList.remove('alert-info', 'alert-danger');
             status.classList.add('alert-success');
             status.textContent = data.message || 'Thanks! Your request has been sent.';
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+              event: 'lead_form_success',
+              form_id: 'leonard-contact-form'
+            });
             form.reset();
           } else {
             status.classList.remove('alert-info', 'alert-success');
