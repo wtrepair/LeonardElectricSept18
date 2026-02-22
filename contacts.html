@@ -341,6 +341,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           status.scrollIntoView({ behavior: 'auto', block: 'center' });
         });
       };
+      submitBtn.addEventListener('click', function() {
+        gtag('event', 'conversion', {
+          send_to: GOOGLE_ADS_SEND_TO
+        });
+      });
 
       form.addEventListener('submit', async function(event) {
         event.preventDefault();
@@ -350,9 +355,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         status.textContent = 'Sending your request...';
         submitBtn.disabled = true;
         scrollToStatus();
-        gtag('event', 'conversion', {
-          send_to: GOOGLE_ADS_SEND_TO
-        });
 
         const formData = new FormData(form);
         const attachmentsInput = document.getElementById('attachments');
