@@ -330,7 +330,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       }
 
       const GOOGLE_ADS_CONVERSION_ID = 'AW-11310801752';
-      const GOOGLE_ADS_CONVERSION_LABEL = 'XdE4CLGq3-IYENjGtJEq';
+      const GOOGLE_ADS_CONVERSION_LABEL = 'ua7HCK342vwbENjGtJEq';
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+      const GOOGLE_ADS_SEND_TO = GOOGLE_ADS_CONVERSION_LABEL
+        ? `${GOOGLE_ADS_CONVERSION_ID}/${GOOGLE_ADS_CONVERSION_LABEL}`
+        : GOOGLE_ADS_CONVERSION_ID;
+      const scrollToStatus = function() {
+        requestAnimationFrame(function() {
+          status.scrollIntoView({ behavior: 'auto', block: 'center' });
+        });
+      };
 
       form.addEventListener('submit', async function(event) {
         event.preventDefault();
@@ -339,6 +349,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         status.classList.add('alert', 'alert-info');
         status.textContent = 'Sending your request...';
         submitBtn.disabled = true;
+        scrollToStatus();
+        gtag('event', 'conversion', {
+          send_to: GOOGLE_ADS_SEND_TO
+        });
 
         const formData = new FormData(form);
         const attachmentsInput = document.getElementById('attachments');
@@ -362,25 +376,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             status.classList.remove('alert-info', 'alert-danger');
             status.classList.add('alert-success');
             status.textContent = data.message || 'Thanks! Your request has been sent.';
-            const sendTo = GOOGLE_ADS_CONVERSION_LABEL
-              ? `${GOOGLE_ADS_CONVERSION_ID}/${GOOGLE_ADS_CONVERSION_LABEL}`
-              : GOOGLE_ADS_CONVERSION_ID;
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({
-              event: 'conversion',
-              send_to: sendTo,
-              form_id: 'leonard-contact-form'
-            });
+            scrollToStatus();
             form.reset();
           } else {
             status.classList.remove('alert-info', 'alert-success');
             status.classList.add('alert-danger');
             status.textContent = (data && data.message) ? data.message : 'Something went wrong. Please try again.';
+            scrollToStatus();
           }
         } catch (err) {
           status.classList.remove('alert-info', 'alert-success');
           status.classList.add('alert-danger');
           status.textContent = 'Unable to send your request. Please try again later.';
+          scrollToStatus();
         } finally {
           submitBtn.disabled = false;
         }
