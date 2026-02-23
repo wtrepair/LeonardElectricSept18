@@ -56,6 +56,54 @@
     }
   }
 
-  initParallax();
-})(); // End of use strict
+  function initGtmClickTracking() {
+    if (!document || !document.addEventListener) return;
 
+    document.addEventListener('click', function(event) {
+      var anchor = event.target && event.target.closest ? event.target.closest('a[href]') : null;
+      if (!anchor) return;
+
+      var rawHref = anchor.getAttribute('href');
+      if (!rawHref) return;
+
+      var href = rawHref.trim();
+      if (!href || href.charAt(0) === '#' || href.toLowerCase().indexOf('javascript:') === 0) return;
+
+      var eventName = null;
+      var payload = {
+        link_url: href,
+        link_text: (anchor.textContent || '').trim()
+      };
+
+      if (href.toLowerCase().indexOf('tel:') === 0) {
+        eventName = 'phone_click';
+      } else if (href.toLowerCase().indexOf('mailto:') === 0) {
+        eventName = 'email_click';
+      } else {
+        try {
+          var resolved = new URL(href, window.location.href);
+          if ((resolved.protocol === 'http:' || resolved.protocol === 'https:') && resolved.origin !== window.location.origin) {
+            eventName = 'outbound_link_click';
+            payload.link_domain = resolved.hostname;
+            payload.link_url = resolved.href;
+          }
+        } catch (e) {
+          return;
+        }
+      }
+
+      if (!eventName) return;
+
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: eventName,
+        link_url: payload.link_url,
+        link_text: payload.link_text,
+        link_domain: payload.link_domain || ''
+      });
+    }, true);
+  }
+
+  initParallax();
+  initGtmClickTracking();
+})(); // End of use strict

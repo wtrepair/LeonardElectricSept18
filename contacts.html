@@ -378,6 +378,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             status.classList.remove('alert-info', 'alert-danger');
             status.classList.add('alert-success');
             status.textContent = data.message || 'Thanks! Your request has been sent.';
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+              event: 'lead_form_success',
+              form_id: 'leonard-contact-form'
+            });
             scrollToStatus();
             form.reset();
           } else {
