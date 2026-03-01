@@ -336,6 +336,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       const GOOGLE_ADS_SEND_TO = GOOGLE_ADS_CONVERSION_LABEL
         ? `${GOOGLE_ADS_CONVERSION_ID}/${GOOGLE_ADS_CONVERSION_LABEL}`
         : GOOGLE_ADS_CONVERSION_ID;
+      const applyFormasterAliases = function(formData) {
+        const firstName = (formData.get('firstName') || '').toString().trim();
+        const lastName = (formData.get('lastName') || '').toString().trim();
+        const fullName = [firstName, lastName].filter(Boolean).join(' ').trim();
+        const phone = (formData.get('phoneNumber') || '').toString().trim();
+        const service = (formData.get('servicesLookingFor') || '').toString().trim();
+        const description = (formData.get('shortDescription') || '').toString().trim();
+
+        if (fullName) {
+          formData.set('name', fullName);
+        }
+        if (phone) {
+          formData.set('phone', phone);
+        }
+        if (service) {
+          formData.set('service', service);
+        }
+        if (description) {
+          formData.set('message', description);
+        }
+        if (!formData.get('subject')) {
+          formData.set('subject', 'New Service Request');
+        }
+      };
       const scrollToStatus = function() {
         requestAnimationFrame(function() {
           status.scrollIntoView({ behavior: 'auto', block: 'center' });
@@ -357,6 +381,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         scrollToStatus();
 
         const formData = new FormData(form);
+        applyFormasterAliases(formData);
         const attachmentsInput = document.getElementById('attachments');
         if (attachmentsInput && attachmentsInput.files && attachmentsInput.files.length === 0) {
           formData.delete('attachments');
