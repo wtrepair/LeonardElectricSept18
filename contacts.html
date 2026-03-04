@@ -336,6 +336,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       const GOOGLE_ADS_SEND_TO = GOOGLE_ADS_CONVERSION_LABEL
         ? `${GOOGLE_ADS_CONVERSION_ID}/${GOOGLE_ADS_CONVERSION_LABEL}`
         : GOOGLE_ADS_CONVERSION_ID;
+      const trackLeadSuccess = function() {
+        gtag('event', 'conversion', {
+          send_to: GOOGLE_ADS_SEND_TO
+        });
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'lead_form_success',
+          form_id: 'leonard-contact-form',
+          lead_type: 'service_request'
+        });
+      };
       const applyFormasterAliases = function(formData) {
         const firstName = (formData.get('firstName') || '').toString().trim();
         const lastName = (formData.get('lastName') || '').toString().trim();
@@ -365,11 +376,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           status.scrollIntoView({ behavior: 'auto', block: 'center' });
         });
       };
-      submitBtn.addEventListener('click', function() {
-        gtag('event', 'conversion', {
-          send_to: GOOGLE_ADS_SEND_TO
-        });
-      });
 
       form.addEventListener('submit', async function(event) {
         event.preventDefault();
@@ -403,11 +409,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             status.classList.remove('alert-info', 'alert-danger');
             status.classList.add('alert-success');
             status.textContent = data.message || 'Thanks! Your request has been sent.';
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({
-              event: 'lead_form_success',
-              form_id: 'leonard-contact-form'
-            });
+            trackLeadSuccess();
             scrollToStatus();
             form.reset();
           } else {
