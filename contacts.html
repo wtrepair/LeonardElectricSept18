@@ -209,8 +209,60 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 <div class="form-text">Up to 5 files, 10MB each. Accepted: jpg, png, pdf, doc, docx, txt.</div>
                             </div>
 
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="serviceTermsAgree" name="serviceTermsAgree" required>
+                                <label class="form-check-label" for="serviceTermsAgree">
+                                    I agree to the
+                                    <button type="button" class="btn btn-link p-0 align-baseline" id="open-service-terms">Service Call Terms</button>.
+                                </label>
+                            </div>
+
                             <button type="submit" class="btn btn-primary btn-lg w-100" id="contact-submit">Submit Request</button>
                         </form>
+
+                        <div id="service-terms-modal" class="terms-modal d-none" role="dialog" aria-modal="true" aria-labelledby="service-terms-title">
+                            <div class="terms-modal__panel">
+                                <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                                    <h3 id="service-terms-title" class="mb-0">Service Call Terms — Leonard Electric</h3>
+                                    <button type="button" class="btn-close btn-close-white" aria-label="Close" data-terms-close></button>
+                                </div>
+                                <div class="terms-modal__body">
+                                    <p>By checking “I agree,” you confirm you understand and accept the following terms for this service call:</p>
+                                    <p>This appointment is a <strong>paid service call.</strong> Leonard Electric is <strong>not</strong> attending to provide a free estimate or quote-only visit. The purpose of the visit is to diagnose and/or perform the requested work during the appointment, as conditions allow.</p>
+
+                                    <h4>Rates and billing</h4>
+                                    <ul>
+                                        <li>The minimum charge is <strong>$250</strong>, which includes <strong>dispatch/show-up and up to the first hour on-site</strong>. If the work takes less than one hour, the charge remains <strong>$250</strong>.</li>
+                                        <li>After the first hour, labor is billed at <strong>$120 per hour</strong>.</li>
+                                        <li>After the first hour, time is billed in <strong>30-minute increments</strong> (0.5 hours).</li>
+                                    </ul>
+
+                                    <h4>Materials and parts</h4>
+                                    <p>Materials/parts are <strong>extra</strong> and are billed in addition to labor.</p>
+                                    <p>If the customer supplies materials/parts and they are <strong>incorrect, missing, incompatible, defective, or insufficient</strong>, the customer agrees that:</p>
+                                    <ul>
+                                        <li>time spent troubleshooting delays is billable, and</li>
+                                        <li><strong>time spent obtaining the correct materials</strong> (including travel time) is billable at the same labor rate and billed in the same 30-minute increments, plus the cost of any materials Leonard Electric purchases.</li>
+                                    </ul>
+                                    <p>Leonard Electric does not provide warranty coverage for <strong>customer-supplied</strong> materials/parts and is not responsible for failures caused by them.</p>
+
+                                    <h4>No estimate visit / unknown conditions</h4>
+                                    <p>Because this is not an estimate visit, the customer understands that <strong>hidden or unforeseen conditions</strong> may exist (for example: aluminum wiring, concealed junctions, unsafe prior work, damage behind drywall, limited access, code issues, or other conditions not visible until work begins). These conditions may increase the time required, change the method of repair, and/or require additional materials. Any additional time required is billed at the rates above.</p>
+                                    <p>If a safety hazard is discovered, Leonard Electric may pause or stop work until it can be addressed. Time spent up to that point remains billable.</p>
+
+                                    <h4>Access and safety</h4>
+                                    <p>The customer is responsible for providing safe and timely access to the work area (including electrical panels, rooms, and equipment), and for securing pets and hazards. If Leonard Electric arrives and cannot access the work area, the <strong>$250 minimum charge</strong> still applies.</p>
+
+                                    <h4>Payment authorization</h4>
+                                    <p>By agreeing, the customer authorizes Leonard Electric to charge the <strong>$250 minimum</strong> for the service call and to invoice (and/or charge the payment method on file, if applicable) for any additional labor and materials in accordance with these terms.</p>
+                                    <p class="mb-0">By checking “I agree,” the customer accepts these Service Call Terms.</p>
+                                </div>
+                                <div class="d-flex flex-wrap gap-2 mt-3 pt-3 border-top border-secondary">
+                                    <button type="button" class="btn btn-primary" id="terms-accept-btn">I Agree</button>
+                                    <button type="button" class="btn btn-outline-light" data-terms-close>Close</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -299,6 +351,50 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script src="assets/js/Animated-Pretty-Product-List-v12-Animated-Pretty-Product-List.js"></script>
     <script src="assets/js/bold-and-dark.js"></script>
     <script src="assets/js/Video-Parallax-Background-v3-Parallax-Video-Background.js"></script>
+    <style>
+      .terms-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        background: rgba(0, 0, 0, 0.75);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+      .terms-modal__panel {
+        width: min(920px, 100%);
+        max-height: min(88vh, 900px);
+        overflow: hidden;
+        background: #1f1f1f;
+        color: #f2f2f2;
+        border: 1px solid rgba(255, 209, 0, 0.3);
+        border-radius: 12px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+      }
+      .terms-modal__body {
+        overflow: auto;
+        padding-right: 0.25rem;
+      }
+      .terms-modal__body h4 {
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        color: #f0c808;
+      }
+      .terms-modal__body ul {
+        padding-left: 1.25rem;
+      }
+      #open-service-terms {
+        font: inherit;
+        color: #f0c808;
+        text-decoration: underline;
+      }
+      #open-service-terms:hover {
+        color: #fff;
+      }
+    </style>
 
     <!-- Form submission script -->
     <script>
@@ -306,6 +402,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       const form = document.getElementById('leonard-contact-form');
       const status = document.getElementById('form-status');
       const submitBtn = document.getElementById('contact-submit');
+      const termsCheckbox = document.getElementById('serviceTermsAgree');
+      const openTermsBtn = document.getElementById('open-service-terms');
+      const termsModal = document.getElementById('service-terms-modal');
+      const termsAcceptBtn = document.getElementById('terms-accept-btn');
 
       if (!form || !status || !submitBtn) {
         return;
@@ -353,9 +453,56 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           status.scrollIntoView({ behavior: 'auto', block: 'center' });
         });
       };
+      const closeTermsModal = function() {
+        if (!termsModal) return;
+        termsModal.classList.add('d-none');
+        document.body.style.overflow = '';
+      };
+      const openTermsModal = function() {
+        if (!termsModal) return;
+        termsModal.classList.remove('d-none');
+        document.body.style.overflow = 'hidden';
+      };
+
+      if (openTermsBtn) {
+        openTermsBtn.addEventListener('click', openTermsModal);
+      }
+      if (termsModal) {
+        termsModal.querySelectorAll('[data-terms-close]').forEach(function(el) {
+          el.addEventListener('click', closeTermsModal);
+        });
+        termsModal.addEventListener('click', function(event) {
+          if (event.target === termsModal) {
+            closeTermsModal();
+          }
+        });
+      }
+      if (termsAcceptBtn) {
+        termsAcceptBtn.addEventListener('click', function() {
+          if (termsCheckbox instanceof HTMLInputElement) {
+            termsCheckbox.checked = true;
+            termsCheckbox.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+          closeTermsModal();
+        });
+      }
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && termsModal && !termsModal.classList.contains('d-none')) {
+          closeTermsModal();
+        }
+      });
 
       form.addEventListener('submit', async function(event) {
         event.preventDefault();
+
+        if (termsCheckbox instanceof HTMLInputElement && !termsCheckbox.checked) {
+          status.classList.remove('d-none', 'alert-success', 'alert-info');
+          status.classList.add('alert', 'alert-danger');
+          status.textContent = 'Please review and accept the Service Call Terms before submitting.';
+          scrollToStatus();
+          termsCheckbox.focus();
+          return;
+        }
 
         status.classList.remove('d-none', 'alert-success', 'alert-danger');
         status.classList.add('alert', 'alert-info');
@@ -365,6 +512,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         const formData = new FormData(form);
         applyFormasterAliases(formData);
+        formData.set('serviceCallTermsAccepted', termsCheckbox instanceof HTMLInputElement && termsCheckbox.checked ? 'yes' : 'no');
+        formData.set('serviceCallTermsVersion', '2026-03-05');
         const attachmentsInput = document.getElementById('attachments');
         if (attachmentsInput && attachmentsInput.files && attachmentsInput.files.length === 0) {
           formData.delete('attachments');
