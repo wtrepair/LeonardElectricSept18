@@ -54,11 +54,44 @@
     };
   }
 
+  const normalizePath = function (path) {
+    const raw = typeof path === 'string' ? path : '/';
+    const cleaned = raw.split('?')[0].replace(/\/+$/, '');
+    return cleaned || '/';
+  };
+
+  const serviceNameFromPath = function (path) {
+    const value = normalizePath(path).toLowerCase();
+    if (value === '/electricalrepairs' || value === '/electricalrepairs.html') return 'Electrical Repair';
+    if (value === '/panelupgrade' || value === '/panelupgrade.html') return 'Panel Upgrades';
+    if (value === '/ev' || value === '/ev.html') return 'EV Charging';
+    if (value === '/homeautomation' || value === '/homeautomation.html') return 'Home Automation';
+    if (value === '/hottubs' || value === '/hottubs.html') return 'Hot Tubs & Pools';
+    if (value === '/surgeprotector' || value === '/surgeprotector.html') return 'Surge Protection';
+    if (value === '/lighting' || value === '/lighting.html') return 'Lighting';
+    if (value === '/generlink' || value === '/generlink.html') return 'Stand-by Generators';
+    if (value === '/inspection_panellabel' || value === '/inspection_panellabel.html') return 'Inspection & Panel Labelling';
+    return '';
+  };
+
+  const pagePath = window.location.pathname || '/';
+  const serviceName = serviceNameFromPath(pagePath);
+
   window.dataLayer.push({
     event: 'le_page_view',
     page_title: document.title,
-    page_path: window.location.pathname
+    page_path: pagePath,
+    page_type: serviceName ? 'service_page' : 'general_page',
+    service_name: serviceName || 'general'
   });
+  if (serviceName) {
+    window.dataLayer.push({
+      event: 'service_page_view',
+      page_path: pagePath,
+      page_type: 'service_page',
+      service_name: serviceName
+    });
+  }
 
   document.addEventListener('click', function (event) {
     const target = event.target;
@@ -70,20 +103,63 @@
       return;
     }
     const href = link.getAttribute('href') || '';
+    const inlineOnClick = (link.getAttribute('onclick') || '').toLowerCase();
+    const inlineHandlesCallConversion = inlineOnClick.includes('gtag_report_conversion');
     if (href.indexOf('tel:') === 0) {
       window.dataLayer.push({
         event: 'phone_click',
-        phone_href: href
+        phone_href: href,
+        page_path: pagePath,
+        page_type: serviceName ? 'service_page' : 'general_page',
+        service_name: serviceName || 'general'
       });
-      window.gtag('event', 'conversion', {
-        send_to: window.leonardTracking.callConversionSendTo
-      });
+      if (!inlineHandlesCallConversion) {
+        window.gtag('event', 'conversion', {
+          send_to: window.leonardTracking.callConversionSendTo
+        });
+      }
       return;
     }
     if (href.indexOf('mailto:') === 0) {
       window.dataLayer.push({
         event: 'email_click',
-        email_href: href
+        email_href: href,
+        page_path: pagePath,
+        page_type: serviceName ? 'service_page' : 'general_page',
+        service_name: serviceName || 'general'
+      });
+      return;
+    }
+
+    let absolute;
+    try {
+      absolute = new URL(href, window.location.origin);
+    } catch (err) {
+      return;
+    }
+
+    if (absolute.origin !== window.location.origin) {
+      return;
+    }
+
+    const ctaText = (link.textContent || '').trim().toLowerCase();
+    const destinationPath = normalizePath(absolute.pathname || '/');
+    const isContactDestination = destinationPath === '/contacts' || destinationPath === '/contacts.html';
+    const isServiceCtaText =
+      ctaText.includes('contact') ||
+      ctaText.includes('new request') ||
+      ctaText.includes('get quote') ||
+      ctaText.includes('free quote') ||
+      ctaText.includes('book');
+
+    if (isContactDestination || isServiceCtaText) {
+      window.dataLayer.push({
+        event: 'service_cta_click',
+        page_path: pagePath,
+        page_type: serviceName ? 'service_page' : 'general_page',
+        service_name: serviceName || 'general',
+        cta_text: ctaText,
+        destination: destinationPath
       });
     }
   });
