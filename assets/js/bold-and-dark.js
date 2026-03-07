@@ -104,6 +104,74 @@
     }, true);
   }
 
+  function initMobileNavbar() {
+    var nav = document.getElementById('mainNav');
+    if (!nav) return;
+
+    var toggler = nav.querySelector('.navbar-toggler');
+    var collapseSelector = toggler && (toggler.getAttribute('data-bs-target') || toggler.getAttribute('data-target'));
+    if (!toggler || !collapseSelector) return;
+
+    var collapse = document.querySelector(collapseSelector);
+    if (!collapse) return;
+
+    var isMobile = function() {
+      return window.matchMedia('(max-width: 991.98px)').matches;
+    };
+
+    var getBootstrapCollapse = function() {
+      if (!window.bootstrap || !window.bootstrap.Collapse) return null;
+      return window.bootstrap.Collapse.getOrCreateInstance(collapse, { toggle: false });
+    };
+
+    var syncTogglerState = function(open) {
+      toggler.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggler.classList.toggle('collapsed', !open);
+    };
+
+    var openMenu = function() {
+      var instance = getBootstrapCollapse();
+      if (instance) {
+        instance.show();
+      } else {
+        collapse.classList.add('show');
+      }
+      syncTogglerState(true);
+    };
+
+    var closeMenu = function() {
+      var instance = getBootstrapCollapse();
+      if (instance) {
+        instance.hide();
+      } else {
+        collapse.classList.remove('show');
+      }
+      syncTogglerState(false);
+    };
+
+    toggler.addEventListener('click', function() {
+      if (getBootstrapCollapse()) {
+        return;
+      }
+      if (collapse.classList.contains('show')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    collapse.addEventListener('click', function(event) {
+      var anchor = event.target && event.target.closest ? event.target.closest('a[href]') : null;
+      if (!anchor || !isMobile()) return;
+
+      var href = (anchor.getAttribute('href') || '').trim();
+      if (href && href !== '#' && href.toLowerCase().indexOf('javascript:') !== 0) {
+        closeMenu();
+      }
+    });
+  }
+
   initParallax();
   initGtmClickTracking();
+  initMobileNavbar();
 })(); // End of use strict
