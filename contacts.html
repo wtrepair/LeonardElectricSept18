@@ -83,8 +83,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         </div>
                         <div id="form-status" class="alert d-none" role="alert"></div>
                         <form id="leonard-contact-form" enctype="multipart/form-data">
-                            <input type="hidden" name="siteId" value="leonardelectric">
-
                             <h3 class="fw-bold mb-3">Contact details</h3>
                             <div class="row g-3 mb-4">
                                 <div class="col-md-6">
@@ -413,6 +411,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       window.dataLayer = window.dataLayer || [];
       window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+      const pageLoadStartedAt = Date.now();
       const trackLeadSuccess = function(payload) {
         if (typeof window.trackLeonardLeadConversion === 'function') {
           window.trackLeonardLeadConversion(payload);
@@ -447,6 +446,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         if (!formData.get('subject')) {
           formData.set('subject', 'New Service Request');
         }
+      };
+      const appendSubmissionContext = function(formData) {
+        formData.set('landing_page', window.location.href);
+        if (document.referrer) {
+          formData.set('referrer', document.referrer);
+        }
+        formData.set('time_on_page_ms', String(Math.max(Date.now() - pageLoadStartedAt, 0)));
       };
       const scrollToStatus = function() {
         requestAnimationFrame(function() {
@@ -512,6 +518,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         const formData = new FormData(form);
         applyFormasterAliases(formData);
+        appendSubmissionContext(formData);
         formData.set('serviceCallTermsAccepted', termsCheckbox instanceof HTMLInputElement && termsCheckbox.checked ? 'yes' : 'no');
         formData.set('serviceCallTermsVersion', '2026-03-05');
         const attachmentsInput = document.getElementById('attachments');
@@ -536,6 +543,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             status.classList.add('alert-success');
             status.textContent = data.message || 'Thanks! Your request has been sent.';
             trackLeadSuccess({
+              lead_id: data.leadId || '',
+              event_id: data.eventId || '',
               form_id: 'leonard-contact-form',
               lead_type: 'service_request',
               service: (formData.get('servicesLookingFor') || '').toString().trim() || 'unknown',
